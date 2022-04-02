@@ -1,14 +1,17 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const { User } = require("./models/user");
 
-//variables - move to
 const app = express();
+
+//variables - move to .env?
 const PORT = 5000;
 const JWT_SECRET = "supersecret";
 
+app.use(cors());
 app.use(express.json());
 
 //checks headers for token
