@@ -24,6 +24,7 @@ export default function UserCreatePage() {
 
   return (
     <div>
+      REGISTER
       <form onSubmit={handleOnSubmit}>
         <label htmlFor="password">username:</label>
         <input
