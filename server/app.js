@@ -2,8 +2,10 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const dotenv = require("dotenv").config();
 
 const { User } = require("./models/user");
+const { ToDo } = require("./models/todo");
 
 const app = express();
 
@@ -56,6 +58,39 @@ app.post("/tokens", async (req, res) => {
   } else {
     res.sendStatus(401);
   }
+});
+
+//creates a todo-item
+// app.post("/todos", async (req, res) => {
+//   const { content } = req.body;
+//   const todo = new ToDo({ content });
+//   await todo.save();
+//   res.json({ content });
+// });
+
+//creates a todo-item for a specific user
+app.post("/todos", async (req, res) => {
+  const { content } = req.body;
+  const user = req.user;
+  const todo = new ToDo({ content, user: user._id });
+  await todo.save();
+
+  res.json({ user, todo });
+});
+
+//lists all todos
+app.get("/todos", async (req, res) => {
+  const todos = await ToDo.find().sort({ date: -1 }).exec();
+
+  res.json({ todos });
+});
+
+//list all todos connected to a user
+app.get("/todos", requireLogin, async (req, res) => {
+  const todos = await ToDo.find({ user: req.user._id })
+    .sort({ date: -1 })
+    .exec();
+  res.json({ todos });
 });
 
 mongoose.connect("mongodb://127.0.0.1/todo");
