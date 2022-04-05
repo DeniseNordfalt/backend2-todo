@@ -19,11 +19,16 @@ export default function LoginPage() {
       body: JSON.stringify(payload),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      // .then((data) => console.log(data));
+      .then((data) => {
+        const token = data.token;
+        localStorage.setItem("token", token);
+      });
   }
 
   return (
     <div>
+      LOGIN
       <form onSubmit={handleOnSubmit}>
         <label htmlFor="password">username:</label>
         <input
