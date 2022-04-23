@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
+import styled from "styled-components";
+import FormInput from "../components/atoms/FormInput";
+import { LoginContainer } from "../components/atoms/Containers";
 
 export default function LoginPage() {
+  const { setUserContext, userContext } = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   function handleOnSubmit(e) {
     e.preventDefault();
@@ -19,37 +27,43 @@ export default function LoginPage() {
       body: JSON.stringify(payload),
     })
       .then((res) => res.json())
-      // .then((data) => console.log(data));
       .then((data) => {
         const token = data.token;
+        console.log("data", data);
         localStorage.setItem("token", token);
+        setUserContext(data);
+        console.log(data.user);
+        console.log("user context", userContext);
+        navigate("/todo");
       });
   }
-
+  console.log("user2", userContext);
   return (
     <div>
       LOGIN
-      <form onSubmit={handleOnSubmit}>
-        <label htmlFor="password">username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+      <LoginContainer>
+        <form onSubmit={handleOnSubmit}>
+          <label htmlFor="password">username:</label>
+          <FormInput
+            type={"text"}
+            id={"username"}
+            name={"username"}
+            value={username}
+            setValue={setUsername}
+          />
 
-        <label htmlFor="password">password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <label htmlFor="password">password:</label>
+          <FormInput
+            id={"password"}
+            name={"password"}
+            type={"password"}
+            value={password}
+            setValue={setPassword}
+          />
 
-        <button type="submit">Submit</button>
-      </form>
+          <button type="submit">Submit</button>
+        </form>
+      </LoginContainer>
     </div>
   );
 }
