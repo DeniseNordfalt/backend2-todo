@@ -12,6 +12,8 @@ export const Container = styled.div`
   padding: ${(props) => props.theme.spacing.medium};
 `;
 
+export const MainContainer = styled.div``;
+
 export const LoginContainer = styled.div`
   background-color: lightgoldenrodyellow;
   height: 500px;
@@ -22,9 +24,13 @@ export const LoginContainer = styled.div`
   display: flex;
   margin: auto;
 
+  flex-direction: column;
+
   text-align: center;
   justify-content: center;
   align-items: center;
+
+  margin-top: 200px;
 
   input {
     margin-left: 150px;
