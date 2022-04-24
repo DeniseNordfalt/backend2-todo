@@ -58,7 +58,23 @@ router.get("/completed", requireLogin, async (req, res) => {
     return res.status(401).json("You have to be logged in to see todos");
   }
 });
+// router.get("/todos/:id/:file", requireLogin, async (req, res) => {
+//   console.log("params", req.params);
+//   console.log("query", req.query);
+//   const params = req.params;
+//   const todo = await ToDo.findOne({ _id: params.id });
+//   await ToDo.findOneAndUpdate(
+//     {
+//       _id: params.id,
+//       files: { $elemMatch: { filename: params.file } },
+//     },
+//     {
+//       $pull: { files: { filename: params.file } },
+//     }
+//   );
 
+//   res.send(todo.files[params.file]);
+// });
 //GET TODO BY ID TOGGLE
 router.get("/:id", requireLogin, async (req, res) => {
   const todo = await ToDo.findOne({ _id: req.params.id });
@@ -66,24 +82,6 @@ router.get("/:id", requireLogin, async (req, res) => {
   await todo.save();
 
   res.json(todo);
-});
-
-router.get("/todos/:id/:file", requireLogin, async (req, res) => {
-  console.log("params", req.params);
-  console.log("query", req.query);
-  const params = req.params;
-  const todo = await ToDo.findOne({ _id: params.id });
-  await ToDo.findOneAndUpdate(
-    {
-      _id: params.id,
-      files: { $elemMatch: { filename: params.file } },
-    },
-    {
-      $pull: { files: { filename: params.file } },
-    }
-  );
-
-  res.send(todo.files[params.file]);
 });
 
 //DELETE TODO BY ID
