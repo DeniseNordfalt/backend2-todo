@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import Card from "../../components/molecules/Card";
@@ -66,17 +66,22 @@ export default function TodoCompletedPage() {
   const [todos, setTodos] = useState([]);
   const url = "http://localhost:5000/todos/completed";
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setTodos(data));
+    if (token !== null) {
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setTodos(data));
+    } else {
+      navigate("/login");
+    }
   }, []);
   return (
     <div>

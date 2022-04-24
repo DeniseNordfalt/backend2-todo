@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import TabList from "../../components/molecules/TabList";
 import Header from "../../components/Header";
@@ -33,8 +34,15 @@ export default function TodoCreatePage() {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [files, setFiles] = useState(null);
-
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   // formData.append("files", files);
+
+  useEffect(() => {
+    if (token === null) {
+      navigate("/login");
+    }
+  }, []);
 
   function handleOnSubmit(e) {
     e.preventDefault();
@@ -54,7 +62,6 @@ export default function TodoCreatePage() {
     const url = "http://localhost:5000/todos";
 
     const payload = { title, content };
-    const token = localStorage.getItem("token");
 
     fetch(url, {
       method: "POST",
