@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import Card from "../../components/molecules/Card";
+import Header from "../../components/Header";
+import TabList from "../../components/molecules/TabList";
 
 const StyledDiv = styled.div`
   background-color: floralwhite;
@@ -78,22 +80,9 @@ export default function TodoCompletedPage() {
   }, []);
   return (
     <div>
+      <Header />
       <Container>
-        <TabContainer>
-          <Tab>
-            <Link to="/todo">Active</Link>
-          </Tab>
-          <Tab>
-            <Link to="/todo/completed">Completed</Link>
-          </Tab>
-          {/* <Tab>
-            <Link to="/todo/uncompleted">Uncompleted</Link>
-          </Tab> */}
-          <Tab>
-            <Link to="/todo/create-todo">New todo</Link>
-          </Tab>
-          {/* ADD TAB FOR CREATE TODO? */}
-        </TabContainer>
+        <TabList />
         <ListContainer>
           {console.log("todos", todos)}
           {/* <Card />
@@ -108,6 +97,7 @@ export default function TodoCompletedPage() {
                     content={todo?.content}
                     id={todo._id}
                     date={todo.date}
+                    {...todo}
                   />
                   {/* <CardHeader>
                 <CircleIcon />
