@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const todoSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.ObjectId, ref: "User" },
-  title: { type: String, required: true, maxlength: 100 },
+  title: { type: String, required: true, maxlength: 30 },
   content: { type: String, maxlength: 500 },
   date: { type: Date, default: Date.now },
   done: { type: Boolean, default: false },
