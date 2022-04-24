@@ -3,7 +3,14 @@ import styled from "styled-components";
 
 const Input = styled.input``;
 
-export default function FormInput({ id, type, value, setValue, placeholder }) {
+export default function FormInput({
+  id,
+  type,
+  value,
+  setValue,
+  placeholder,
+  ...props
+}) {
   return (
     <Input
       id={id}
@@ -11,6 +18,7 @@ export default function FormInput({ id, type, value, setValue, placeholder }) {
       value={value}
       onChange={(e) => setValue(e.target.value)}
       placeholder={placeholder}
-    ></Input>
+      {...props}
+    />
   );
 }
