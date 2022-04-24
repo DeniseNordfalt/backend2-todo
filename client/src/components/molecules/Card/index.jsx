@@ -22,6 +22,7 @@ export default function Card({ title, content, id, date, files, ...props }) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
       .then((res) => res.json())
