@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { LoginContainer } from "../../components/atoms/Containers";
 
 export default function UserCreatePage() {
@@ -25,8 +26,8 @@ export default function UserCreatePage() {
 
   return (
     <div>
-      REGISTER
       <LoginContainer>
+        REGISTER
         <form onSubmit={handleOnSubmit}>
           <label htmlFor="password">username:</label>
           <input
@@ -48,6 +49,7 @@ export default function UserCreatePage() {
 
           <button type="submit">Submit</button>
         </form>
+        <Link to="/login">Login</Link>
       </LoginContainer>
     </div>
   );
