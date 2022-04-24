@@ -1,11 +1,20 @@
 const express = require("express");
 const router = express.Router();
+// const requireLogin = require("../controllers/auth");
 
 const { User } = require("../models/user");
 const { ToDo } = require("../models/todo");
 
+const requireLogin = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+};
+
 //GET ALL TODOS
-router.get("/", async (req, res) => {
+router.get("/", requireLogin, async (req, res) => {
   const user = req.user;
   if (user) {
     console.log("USER", req.user);
@@ -35,7 +44,7 @@ router.get("/", async (req, res) => {
 // });
 
 //GET COMPLETED
-router.get("/completed", async (req, res) => {
+router.get("/completed", requireLogin, async (req, res) => {
   console.log("user", req.user);
   const user = req.user;
   //find out why this is undefined
@@ -51,7 +60,7 @@ router.get("/completed", async (req, res) => {
 });
 
 //GET TODO BY ID TOGGLE
-router.get("/:id", async (req, res) => {
+router.get("/:id", requireLogin, async (req, res) => {
   const todo = await ToDo.findOne({ _id: req.params.id });
   todo.done = !todo.done;
   await todo.save();
@@ -59,7 +68,7 @@ router.get("/:id", async (req, res) => {
   res.json(todo);
 });
 
-router.get("/todos/:id/:file", async (req, res) => {
+router.get("/todos/:id/:file", requireLogin, async (req, res) => {
   console.log("params", req.params);
   console.log("query", req.query);
   const params = req.params;
@@ -78,13 +87,13 @@ router.get("/todos/:id/:file", async (req, res) => {
 });
 
 //DELETE TODO BY ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", requireLogin, async (req, res) => {
   const todo = await ToDo.findOneAndDelete({ _id: req.params.id });
   res.json(todo);
 });
 
 // //update a todo
-router.put("/:id", async (req, res) => {
+router.put("/:id", requireLogin, async (req, res) => {
   const { title, content, files } = req.body;
   const todo = await ToDo.findOneAndUpdate(
     { _id: req.params.id },
