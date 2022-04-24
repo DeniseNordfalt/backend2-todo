@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../App";
 import styled from "styled-components";
 import FormInput from "../components/atoms/FormInput";
@@ -40,8 +40,8 @@ export default function LoginPage() {
   console.log("user2", userContext);
   return (
     <div>
-      LOGIN
       <LoginContainer>
+        LOGIN
         <form onSubmit={handleOnSubmit}>
           <label htmlFor="password">username:</label>
           <FormInput
@@ -63,6 +63,7 @@ export default function LoginPage() {
 
           <button type="submit">Submit</button>
         </form>
+        <Link to="/register">Register</Link>
       </LoginContainer>
     </div>
   );
