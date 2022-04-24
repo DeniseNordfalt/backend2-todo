@@ -114,7 +114,9 @@ app.post("/tokens", async (req, res) => {
 app.use("/users", require("./routes/users"));
 app.use("/todos", require("./routes/todos"));
 
+const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect("mongodb://127.0.0.1/todo");
+// mongoose.connect(MONGODB_URI);
 
 app.listen(PORT, () => {
   console.log(`Started server on port: ${PORT}`);
