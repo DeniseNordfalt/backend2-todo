@@ -76,23 +76,23 @@ app.post("/todos", requireLogin, async (req, res) => {
   }
 });
 
-// app.get("/todos/:id/:file", requireLogin, async (req, res) => {
-//   console.log("params", req.params);
-//   console.log("query", req.query);
-//   const params = req.params;
-//   const todo = await ToDo.findOne({ _id: params.id });
-//   await ToDo.findOneAndUpdate(
-//     {
-//       _id: params.id,
-//       files: { $elemMatch: { filename: params.file } },
-//     },
-//     {
-//       $pull: { files: { filename: params.file } },
-//     }
-//   );
+app.get("/todos/:id/:file", requireLogin, async (req, res) => {
+  console.log("params", req.params);
+  console.log("query", req.query);
+  const params = req.params;
+  const todo = await ToDo.findOne({ _id: params.id });
+  await ToDo.findOneAndUpdate(
+    {
+      _id: params.id,
+      files: { $elemMatch: { filename: params.file } },
+    },
+    {
+      $pull: { files: { filename: params.file } },
+    }
+  );
 
-//   res.send(todo.files[params.file]);
-// });
+  res.send(todo.files[params.file]);
+});
 ////////////////////////////////////////////////////
 
 //gets token
@@ -115,8 +115,8 @@ app.use("/users", require("./routes/users"));
 app.use("/todos", require("./routes/todos"));
 
 const MONGODB_URI = process.env.MONGODB_URI;
-mongoose.connect("mongodb://127.0.0.1/todo");
-// mongoose.connect(MONGODB_URI);
+// mongoose.connect("mongodb://127.0.0.1/todo");
+mongoose.connect(MONGODB_URI);
 
 app.listen(PORT, () => {
   console.log(`Started server on port: ${PORT}`);
