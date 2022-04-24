@@ -32,7 +32,6 @@ export const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
   width: auto;
-  outline: 1px solid red;
 
   input,
   textarea {
