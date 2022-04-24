@@ -99,16 +99,22 @@ app.get("/todos/:id/:file", requireLogin, async (req, res) => {
 app.post("/tokens", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.login(username, password);
-  if (user) {
+  console.log(user);
+  if (!username || !password) {
+    res.status(400).json("Username and password is required");
+  } else if (user === null) {
+    res.status(400).json("Username or password is incorrect");
+  } else {
     const userId = user._id.toString();
     const token = jwt.sign({ userId, username: user.username }, JWT_SECRET, {
       expiresIn: "24h",
       subject: userId,
     });
     res.json({ token, userId, username: user.username });
-  } else {
-    res.sendStatus(401);
   }
+  // else {
+  //   res.sendStatus(401);
+  // }
 });
 
 app.use("/users", require("./routes/users"));

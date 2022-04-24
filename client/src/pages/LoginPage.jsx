@@ -29,12 +29,14 @@ export default function LoginPage() {
       .then((res) => res.json())
       .then((data) => {
         const token = data.token;
-        console.log("data", data);
-        localStorage.setItem("token", token);
-        setUserContext(data);
-        console.log(data.user);
-        console.log("user context", userContext);
-        navigate("/todo");
+        console.log("data", data.token);
+        if (token !== undefined) {
+          localStorage.setItem("token", token);
+          setUserContext(data);
+          console.log(data.user);
+          console.log("user context", userContext);
+          navigate("/todo");
+        }
       });
   }
   console.log("user2", userContext);
